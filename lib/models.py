@@ -6,6 +6,7 @@ from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
+
 class Game(Base):
     __tablename__ = 'games'
 
@@ -13,10 +14,11 @@ class Game(Base):
 
     reviews = relationship('Review', backref='game')
     users = association_proxy('reviews', 'user',
-        creator=lambda us: Review(user=us))
+                              creator=lambda us: Review(user=us))
 
     def __repr__(self):
         return f'Game(id={self.id})'
+
 
 class Review(Base):
     __tablename__ = 'reviews'
@@ -27,7 +29,8 @@ class Review(Base):
     user_id = Column(Integer(), ForeignKey('users.id'))
 
     def __repr__(self):
-       return f'Review(id={self.id})'
+        return f'Review(id={self.id})'
+
 
 class User(Base):
     __tablename__ = 'users'
@@ -36,7 +39,7 @@ class User(Base):
 
     reviews = relationship('Review', backref='user')
     games = association_proxy('reviews', 'game',
-        creator=lambda gm: Review(game=gm))
+                              creator=lambda gm: Review(game=gm))
 
     def __repr__(self):
-       return f'User(id={self.id})'
+        return f'User(id={self.id})'
